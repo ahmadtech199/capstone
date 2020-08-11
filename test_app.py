@@ -16,7 +16,7 @@ class CapstoneTestCase(unittest.TestCase):
 
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_name = "Capstone_test"
+        self.database_name = "test_app"
         self.database_path = os.environ['TEST_DATABASE_URL']
         setup_db(self.app, self.database_path)
 
