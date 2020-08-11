@@ -33,13 +33,13 @@ This will install all of the required packages we selected within the `requireme
 Create a new database in Postgress:
 
 ```
-createdb Capstone
+createdb capstone
 ```
 
 With Postgres running, restore the database
 
 ```
-psql Capstone < Capstone_data.sql
+psql capstone < Capstone_data.sql
 ```
 
 ## Running the server locally
