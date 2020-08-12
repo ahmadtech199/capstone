@@ -173,7 +173,6 @@ def create_app(test_config=None):
             actor.update()
 
         except Exception as e:
-            print('we couldnt create the object. Reason :', e)
             abort(500)
 
         return jsonify({

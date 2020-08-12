@@ -1,6 +1,16 @@
 # FSND Capstone API Backend
 
-## Getting Started
+Final Project for the Udacity Fullstack Nanodegree
+
+## Casting Agency
+
+### Overview
+
+This project consists of a Casting Agency App. The Casting Agency models a company that is responsible for creating movies and managing and assigning actors to those movies. You are an Executive Producer within the company and are creating a system to simplify and streamline your process. The goal of this project is to practice and get a better insight of how full stack delevoping is.
+
+### Motivation for project
+
+This project sums up all the effort made during this Nanodregree where I learned many different technologies and the basics of how FE and BE interact with each other. I believe this project is the stepping stone that will allow me to dive into the deepths of the web development world and I'm really exited to get this jorney started as a Full Stack Developer. The project itself will definetly have a lot of potential improvements, but that's what developing means for me, always having room for making things better, more efficient and simpler.
 
 ### Installing Dependencies
 
@@ -59,42 +69,52 @@ To run the tests, run:
 ```
 dropdb test_app && createdb test_app
 psql test_app < Capstone_data.sql
-python test_app.py
+python3 test_app.py
 ```
+
+#### RBAC
+
+Each endpoint is access controlled using Auth0's Role Based Access Control
+(RBAC), with the exception of one publicly accessible endpoint. Specifics on
+each role and the permissions granted to each are below this file
 
 ## Live server can be found in
 
 > Base URL `https://capstonea.herokuapp.com/`
 
-# API Endpoints
+## API Reference
 
-> Base URL `https://capstonea.herokuapp.com/`
+### Getting Started
 
-| URI          | Method | Action                                                                                                                                                                    | Curl example                                                                                                                                                                                                                        | return example                                                                                                                                                                                                                                                                                                                                             |
-| ------------ | ------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| /            | GET    | test the application is running                                                                                                                                           | `curl https://capstonea.herokuapp.com/`                                                                                                                                                                                             | 'Hi There'                                                                                                                                                                                                                                                                                                                                                 |
-| /actors      | GET    | Fetches all the actors as a List                                                                                                                                          | `curl https://capstonea.herokuapp.com/actors -H"Authorization: Bearer <Token>"`                                                                                                                                                     | `{"actors": [{"age": 54, "gender": "male", "id": 7, "name": "Otilio"}, {"age": 45, "gender": "male", "id": 9, "name": "pepe Gotera"},], "status": true}`                                                                                                                                                                                                   |
-| /Movies      | GET    | Fetches all the movies as a List                                                                                                                                          | `curl https://capstonea.herokuapp.com/movies -H"Authorization: Bearer <Token>"`                                                                                                                                                     | `{"movies": [{ "actor_id": 4, "id": 13, "release date": "Wed, 25 Dec 2020 22:55:56 GMT", "title": "random title" }, {"actor_id": 1, "id": 8, "release date": "Thu, 25 Mar 2021 11:55:11 GMT", "title": avengers vs godzilla" }],"status": true }`                                                                                                          |
-| /actors/<id> | PATCH  | Modifies the content of a stored actor. Returns the modified actor as a list                                                                                              | `curl https://capstonea.herokuapp.com/actors/2 -X PATCH -H"Authorization: Bearer <Token>" -H"Content-Type: application/json" -d'{"name":"Otilio", "age":"54"}'`                                                                     | `{"actor": [{"age": 54, "gender": "male", "id": 2, "name": "Otilio"}], status": true}`                                                                                                                                                                                                                                                                     |
-| /movies/<id> | PATCH  | Modifies the content of a stored movie. Returns the modified actor as a list                                                                                              | `curl https://capstonea.herokuapp.com/movies/5 -X PATCH -H"Authorization: Bearer <Token>" -H"Content-Type: application/json" -d'{"title":"avengers vs godzilla","releaseDate":"Wed, 25 Dec 2020 22:55:56 GMT"}'`                    | `{"movie": [{"actor_id": 1, "id": 5, "release date": "Thu, 25 Mar 2021 11:55:11 GMT", "title": "avengers vs godzilla"}], "status": true}`                                                                                                                                                                                                                  |
-| /actors/<id> | DELETE | Deletes the selected actor by specified id                                                                                                                                | `curl https://capstonea.herokuapp.com/actors/3 -X DELETE -H"Authorization: Bearer <Token>"`                                                                                                                                         | `{"actor": "3", "status": true}`                                                                                                                                                                                                                                                                                                                           |
-| /movies/<id> | DELETE | Deletes the selected movie or movies with title specified by id                                                                                                           | `curl https://capstonea.herokuapp.com/movies/1 -X DELETE -H"Authorization: Bearer <Token>"`                                                                                                                                         | `{"movie": "por amor", "status": true}`                                                                                                                                                                                                                                                                                                                    |
-| /actors/add  | POST   | Adds a new actor to the database. Returns the actor as a List                                                                                                             | `curl https://capstonea.herokuapp.com/actors/add -X POST -H"Authorization: Bearer <Token>" -H"Content-Type: application/json" -d'{"name":"pepe Gotera", "age":"45","gender":"male"}'`                                               | `{ "actor": [{"age": 45, "gender": "male", "id": 1, "name": "pepe Gotera" }], "status": true }`                                                                                                                                                                                                                                                            |
-| /movies/add  | POST   | Adds a new movie to the database. Returns the movie as a List. If more than one actor is specified on the actors List one identical movie will be created for each actor. | `curl -X POST https://capstonea.herokuapp.com/movies/add -H"Authorization: Bearer <Token>" -H"Content-Type: application/json" -d'{"title":"random title","releaseDate":"Wed, 25 Dec 2020 22:55:56 GMT","actor_id": ["1","2","4"]}'` | `{ "movie": [{"actor_id": "1", "id": null, "release date": "Wed, 25 Dec 2020 22:55:56 GMT", "title": "random title" }, { "actor_id": "2", "id": null, "release date": "Wed, 25 Dec 2020 22:55:56 GMT", "title": "random title" },{"actor_id": "4", "id": null, "release date": "Wed, 25 Dec 2020 22:55:56 GMT", "title": random title"}], "status": true}` |
+1. Base URL : Backend app is hosted on https://capstonea.herokuapp.com/
+2. Authentication : Role based authentication using AUTH0
 
-## Test tokens:
+### Error Handling
 
-#### Casting assistant
+Errors are returned as JSON objects in the following format:
 
-`eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBLRFh0NUVXY3l1aGxVcm9jZkR3TiJ9.eyJpc3MiOiJodHRwczovL2FobWFkMC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkzMzI5MDA5ODI1MzU5NzcwNjYiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL2FobWFkMC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTk3MTE4MzkzLCJleHAiOjE1OTcxMjU1OTMsImF6cCI6Impjd1NOSzB0aVdTOWJ0WTAxblRHWnZzTTFydnBSMWc0Iiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIl19.kmQe8VfcJXmcXn-gkwjyjTfFufT5oHeetyEy2YvlKRvU-4qEoyU7i3uOjCc1iWcU95r9B-JOynqcjzD4frXT4kNu8Xr4nmh7fInKo2klI2wC7JN_oIyLTvc8M2kgHlMl63DYW7vP76R3pBbwctAb9AlhsKQlwgomPQV4Hcf2UKiJogN36hkmRIM75qf-FFvFk_NOJlYf1C1USkdhL1Yjswsoa3o_oSnzuv301rC_gs0xjWJyd_II0CwBbV8OK427SQr2MFxe85avQTI1puL1BND0JWrcRWWcZLasRBEpLfJFvM3baXVl-ghg14QRjYa9J1mvQoKwYuzFILZ51Ufw_g`
+```json
+{
+  "success": False,
+  "error": 404,
+  "message": "Resource Not Found"
+}
+```
 
-#### Casting director
+The API will return these error types when requests fail:
 
-`eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBLRFh0NUVXY3l1aGxVcm9jZkR3TiJ9.eyJpc3MiOiJodHRwczovL2FobWFkMC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTU5MDE2Nzc0Mjk1OTkxODI0OTMiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL2FobWFkMC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTk3MTIwNDgyLCJleHAiOjE1OTcxMjc2ODIsImF6cCI6Impjd1NOSzB0aVdTOWJ0WTAxblRHWnZzTTFydnBSMWc0Iiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInBvc3Q6YWN0b3JzIl19.aWvx8LRde4JdknPML5uISNdRaxSgBcGygGZbVsaVE-WvkxcMhJmbNfYtz5YU1GB6iJGsC1XFY3wA7hAyHq5-rlTRjvPcCKa4ZYwisT2B-_03nGm1TPtZkpogzySIpbDZZKUv6F6l2LDtJlKDiPjmqOgU9TUqOWJv9_0lXz1mVwEACDHvmI-OoOlkR3r9a3mXanr4-Wv2gp71nVA0oop31HJLd5LEz6YbcLk87Mi1W7RrtEEjHz5niy7DVfk5fSOmOlSM6mhx6phptm0l0EFCGqPe1JjwIJpsNv3gKvSg6Xnt7P1Kc_W8GCQBMv_CvgG2eo_uPzeOhteFe_MM1vJ91g`
+- 400: bad request
+- 404: Resource not found
+- 422: unprocessable
+- 500: Internal Server Error
 
-#### Executive producer
+If the route requires authentification and the request fails, it will return:
 
-`eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBLRFh0NUVXY3l1aGxVcm9jZkR3TiJ9.eyJpc3MiOiJodHRwczovL2FobWFkMC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDE3ODQzNDAxMDEzMzIzMjczNjMiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL2FobWFkMC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTk3MTIwNzM5LCJleHAiOjE1OTcxMjc5MzksImF6cCI6Impjd1NOSzB0aVdTOWJ0WTAxblRHWnZzTTFydnBSMWc0Iiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJwb3N0OmFjdG9ycyIsInBvc3Q6bW92aWVzIl19.EwjJsFrMdLLbPX2gTfZK0MiXLyGJcIyfi2lPhVc2KWWaJU4vY9d-pOTQEivTMbhXJGWbN6U5wxegTxH7IjKtRhjKzwp0cXWh_0c_Sa_ID9U4YiRVmahp1IAsYbfD4tNn2vHIoKZ6vNjqPkVIGovdd5JcKlkRygejAsgcMvxvHzKcjzhDyWiTWliVQfmrywMvHdG4aLU9u413C5ERgYGtnGrJv1yUd2FYsN-MOKe2pmfZkOY5n2sjk8jO6ll7uw7UIdsEsHOHc1HKYnC6v5j1V30OYjIWlq4mYBquit6XOJocO_7g-eAfzHJ9N_B5tWav7nOp27EjBx-olHjVWS4K-Q`
+- 401: "authorization_header_missing"
+- 400: "invalid_claims"
+- 403: "unauthorized"
+
+### Roles and Permissions
 
 ## Permissions
 
@@ -116,3 +136,179 @@ python test_app.py
 | Casting Assistant  | get:movies get:actors                                                                               |
 | Casting Director   | get:movies get:actors post:actors delete:actors patch:actors patch:movies                           |
 | Executive producer | get:movies get:actors post:actors post:movies delete:actors delete:movies patch:actors patch:movies |
+
+### Endpoints
+
+#### GET /
+
+No authentication required. This is to check if the APP is up and running.
+
+```json
+{
+  "Message": "'Hi There",
+  "success": true
+}
+```
+
+#### GET /actors (Auth required)
+
+Returns details of all actors.
+
+Sample output:
+
+```json
+{
+  "actors": [
+    { "age": 54, "gender": "male", "id": 7, "name": "Otilio" },
+    { "age": 45, "gender": "male", "id": 9, "name": "pepe Gotera" }
+  ],
+  "status": true
+}
+```
+
+#### GET /actors/<actor_id> (Auth required)
+
+Returns actor details for the given id.
+
+Sample output:
+
+```json
+{
+  "actors": {
+    "age": 25,
+    "gender": "female",
+    "id": 1,
+    "name": "Dany"
+  },
+  "success": true
+}
+```
+
+#### GET /movies (Auth required)
+
+Returns details of all movies.
+
+Sample output:
+
+```json
+{"movies": [{ "actor_id": 4, "id": 13, "release date": "Wed, 25 Dec 2020 22:55:56 GMT", "title": "random title" }, {"actor_id": 1, "id": 8, "release date": "Thu, 25 Mar 2021 11:55:11 GMT", "title": avengers vs godzilla" }],"status": true }
+```
+
+#### GET /movies/<movie_id> (Auth required)
+
+Returns movies details for the given id.
+
+Sample output:
+
+```json
+{
+  "movies": {
+    "id": 1,
+    "releasedate": "20-07-2015",
+    "title": "Frozen"
+  },
+  "success": true
+}
+```
+
+#### POST /actors (Auth required)
+
+Add a new actor.
+
+Sample input:
+
+```json
+{
+  "name": "John",
+  "age": "26",
+  "gender": "male"
+}
+```
+
+#### POST /movies (Auth required)
+
+Add a new movie.
+
+Sample input:
+
+```json
+{
+  "title": "Toy Story",
+  "releasedate": "20-07-2015"
+}
+```
+
+#### PATCH /actors/<actor_id> (Auth required)
+
+Update the existing actor.
+
+Sample input:
+
+```json
+{
+  "name": "Dany",
+  "age": "25"
+}
+```
+
+#### PATCH /movies/<movie_id> (Auth required)
+
+Update the existing movie.
+
+Sample Input:
+
+```json
+{
+  "title": "Frozen"
+}
+```
+
+#### DELETE /actors/<actor_id> (Auth required)
+
+Delete the existing actor.
+
+Sample Output:
+
+```json
+{
+  "deleted_actor_id": 35,
+  "message": "Actor successfully deleted!",
+  "success": true
+}
+```
+
+#### DELETE /movies/<movie_id> (Auth required)
+
+Delete the existing movie.
+
+Sample Output:
+
+```json
+{
+  "deleted_movie_id": 34,
+  "message": "Movie successfully deleted!",
+  "success": true
+}
+```
+
+### AUTHORS
+
+Ahmad Alsobhi
+
+## Acknowledgements
+
+I want to thank Udacity for providing the framework and guidelines for this great project.
+
+## Test tokens:
+
+#### Casting assistant
+
+`eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBLRFh0NUVXY3l1aGxVcm9jZkR3TiJ9.eyJpc3MiOiJodHRwczovL2FobWFkMC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDkzMzI5MDA5ODI1MzU5NzcwNjYiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL2FobWFkMC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTk3MTE4MzkzLCJleHAiOjE1OTcxMjU1OTMsImF6cCI6Impjd1NOSzB0aVdTOWJ0WTAxblRHWnZzTTFydnBSMWc0Iiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImdldDphY3RvcnMiLCJnZXQ6bW92aWVzIl19.kmQe8VfcJXmcXn-gkwjyjTfFufT5oHeetyEy2YvlKRvU-4qEoyU7i3uOjCc1iWcU95r9B-JOynqcjzD4frXT4kNu8Xr4nmh7fInKo2klI2wC7JN_oIyLTvc8M2kgHlMl63DYW7vP76R3pBbwctAb9AlhsKQlwgomPQV4Hcf2UKiJogN36hkmRIM75qf-FFvFk_NOJlYf1C1USkdhL1Yjswsoa3o_oSnzuv301rC_gs0xjWJyd_II0CwBbV8OK427SQr2MFxe85avQTI1puL1BND0JWrcRWWcZLasRBEpLfJFvM3baXVl-ghg14QRjYa9J1mvQoKwYuzFILZ51Ufw_g`
+
+#### Casting director
+
+`eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBLRFh0NUVXY3l1aGxVcm9jZkR3TiJ9.eyJpc3MiOiJodHRwczovL2FobWFkMC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTU5MDE2Nzc0Mjk1OTkxODI0OTMiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL2FobWFkMC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTk3MTIwNDgyLCJleHAiOjE1OTcxMjc2ODIsImF6cCI6Impjd1NOSzB0aVdTOWJ0WTAxblRHWnZzTTFydnBSMWc0Iiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJnZXQ6YWN0b3JzIiwiZ2V0Om1vdmllcyIsInBhdGNoOmFjdG9ycyIsInBhdGNoOm1vdmllcyIsInBvc3Q6YWN0b3JzIl19.aWvx8LRde4JdknPML5uISNdRaxSgBcGygGZbVsaVE-WvkxcMhJmbNfYtz5YU1GB6iJGsC1XFY3wA7hAyHq5-rlTRjvPcCKa4ZYwisT2B-_03nGm1TPtZkpogzySIpbDZZKUv6F6l2LDtJlKDiPjmqOgU9TUqOWJv9_0lXz1mVwEACDHvmI-OoOlkR3r9a3mXanr4-Wv2gp71nVA0oop31HJLd5LEz6YbcLk87Mi1W7RrtEEjHz5niy7DVfk5fSOmOlSM6mhx6phptm0l0EFCGqPe1JjwIJpsNv3gKvSg6Xnt7P1Kc_W8GCQBMv_CvgG2eo_uPzeOhteFe_MM1vJ91g`
+
+#### Executive producer
+
+`eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlBLRFh0NUVXY3l1aGxVcm9jZkR3TiJ9.eyJpc3MiOiJodHRwczovL2FobWFkMC5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMDE3ODQzNDAxMDEzMzIzMjczNjMiLCJhdWQiOlsiY2Fwc3RvbmUiLCJodHRwczovL2FobWFkMC5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNTk3MTIwNzM5LCJleHAiOjE1OTcxMjc5MzksImF6cCI6Impjd1NOSzB0aVdTOWJ0WTAxblRHWnZzTTFydnBSMWc0Iiwic2NvcGUiOiJvcGVuaWQgcHJvZmlsZSBlbWFpbCIsInBlcm1pc3Npb25zIjpbImRlbGV0ZTphY3RvcnMiLCJkZWxldGU6bW92aWVzIiwiZ2V0OmFjdG9ycyIsImdldDptb3ZpZXMiLCJwYXRjaDphY3RvcnMiLCJwYXRjaDptb3ZpZXMiLCJwb3N0OmFjdG9ycyIsInBvc3Q6bW92aWVzIl19.EwjJsFrMdLLbPX2gTfZK0MiXLyGJcIyfi2lPhVc2KWWaJU4vY9d-pOTQEivTMbhXJGWbN6U5wxegTxH7IjKtRhjKzwp0cXWh_0c_Sa_ID9U4YiRVmahp1IAsYbfD4tNn2vHIoKZ6vNjqPkVIGovdd5JcKlkRygejAsgcMvxvHzKcjzhDyWiTWliVQfmrywMvHdG4aLU9u413C5ERgYGtnGrJv1yUd2FYsN-MOKe2pmfZkOY5n2sjk8jO6ll7uw7UIdsEsHOHc1HKYnC6v5j1V30OYjIWlq4mYBquit6XOJocO_7g-eAfzHJ9N_B5tWav7nOp27EjBx-olHjVWS4K-Q`
